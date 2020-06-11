@@ -9,7 +9,7 @@ class CountdownTimer {
     this.targetDate = targetDate;
   }
   interval() {
-    this.counter = setInterval(() => {
+    this.count = setInterval(() => {
       const date = Date.now();
       const time = this.targetDate.getTime() - date;
       const days = this.pad(Math.floor(time / (1000 * 60 * 60 * 24)));
@@ -26,6 +26,11 @@ class CountdownTimer {
       minsT.textContent = mins;
       secsT.textContent = secs;
     }, 1000);
+
+    if (this.targetDate.getTime() <= Date.now()) {
+      clearInterval(this.count);
+      alert("вы опоздали");
+    }
   }
 
   pad(value) {
@@ -35,32 +40,7 @@ class CountdownTimer {
 
 const counter = new CountdownTimer({
   selector: "#timer-1",
-  targetDate: new Date("Jul 17, 2050"),
+  targetDate: new Date("Jul 17, 2020"),
 });
 
 counter.interval();
-
-// /*
-//  * Оставшиеся дни: делим значение UTC на 1000 * 60 * 60 * 24, количество
-//  * миллисекунд в одном дне (миллисекунды * секунды * минуты * часы)
-//  */
-// const days = Math.floor(time / (1000 * 60 * 60 * 24));
-
-// /*
-//  * Оставшиеся часы: получаем остаток от предыдущего расчета с помощью оператора
-//  * остатка % и делим его на количество миллисекунд в одном часе
-//  * (1000 * 60 * 60 = миллисекунды * минуты * секунды)
-//  */
-// const hours = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-
-// /*
-//  * Оставшиеся минуты: получаем оставшиеся минуты и делим их на количество
-//  * миллисекунд в одной минуте (1000 * 60 = миллисекунды * секунды)
-//  */
-// const mins = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
-
-// /*
-//  * Оставшиеся секунды: получаем оставшиеся секунды и делим их на количество
-//  * миллисекунд в одной секунде (1000)
-//  */
-// const secs = Math.floor((time % (1000 * 60)) / 1000);
